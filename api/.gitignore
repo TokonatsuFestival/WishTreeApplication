@@ -1,0 +1,6 @@
+# Serverless cache files
+.serverless
+
+# Config Files
+config.dev.json
+config.prod.json

@@ -1,0 +1,81 @@
+service: toko-wishtree-api
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'eu-west-2'}
+  apiGateway:
+    shouldStartNameWithService: true
+  iam:
+    role:
+      statements:
+        -  Effect: "Allow"
+           Action:
+            - "dynamodb:GetItem"
+            - "dynamodb:Scan"
+            - "dynamodb:PutItem"
+            - "dynamodb:UpdateItem"
+           Resource:
+            - arn:aws:dynamodb:*:*:table/${file(./config.${opt:stage, self:provider.stage, 'dev'}.json):WISH_TREE_TAGS_TABLE}
+
+functions:
+  getTagsForWishTree:
+    name: wish-tree-${opt:stage, self:provider.stage, 'dev'}-get-tags
+    handler: getTagsForWishTree.handler
+    description: Function to get the Wishtree Tags from the DB
+    environment: 
+      ENV: ${opt:stage, self:provider.stage, 'dev'}
+      WISH_TREE_TAGS_TABLE: ${file(./config.${opt:stage, self:provider.stage, 'dev'}.json):WISH_TREE_TAGS_TABLE}
+    events:
+      - http:
+          path: getTagsForWishTree
+          method: get
+          cors: true
+  putTagsForWishTree:
+    name: wish-tree-${opt:stage, self:provider.stage, 'dev'}-put-tags
+    handler: putTagsForWishTree.handler
+    description: Function to put the Wishtree Tags from the DB
+    environment: 
+      ENV: ${opt:stage, self:provider.stage, 'dev'}
+      WISH_TREE_TAGS_TABLE: ${file(./config.${opt:stage, self:provider.stage, 'dev'}.json):WISH_TREE_TAGS_TABLE}
+    events:
+      - http:
+          path: putTagsForWishTree
+          method: post
+          cors: true
+
+resources:
+  Resources:
+    tagsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${file(./config.${opt:stage, self:provider.stage, 'dev'}.json):WISH_TREE_TAGS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: Description
+            AttributeType: S
+        KeySchema:
+          - AttributeName: Description
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        SSESpecification:
+          SSEEnabled: true
+    wishTreeS3Bucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        AccessControl: PublicRead
+        BucketName: ${file(./config.${opt:stage, self:provider.stage, 'dev'}.json):WISH_TREE_S3_BUCKET}
+        WebsiteConfiguration:
+          IndexDocument: index.html
+          ErrorDocument: error.html
+      DeletionPolicy: Retain
+  Outputs:
+    WebsiteURL:
+      Value: !GetAtt
+         - wishTreeS3Bucket
+         - WebsiteURL
+      Description: URL for website hosted on S3
