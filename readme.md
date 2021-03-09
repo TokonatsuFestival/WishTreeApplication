@@ -10,13 +10,15 @@ If you haven't got the serverless framework installed or configured visit https:
 
 ## Installation Steps
 1. Download and Unzip the Wishtree Application found within the github project.
-2. Copy the api/config.sample.json to api/config.\<stagename>.json
-3. Update the config.\<stagename>.json file updating the names of both the Wish_Tree_S3_Bucket name and Wish_Tree_Tags_Table name within the file and save.
-4. Using SLS deploy the application using `sls deploy --stage <stagename>` 
+2. Copy the `api/config.sample.json` to `api/config.\<stagename>.json`
+3. Update the `config.\<stagename>.json` file updating the names of both the `Wish_Tree_S3_Bucket` name and `Wish_Tree_Tags_Table` name within the file and save.
+4. Using SLS deploy the application using 
+> `sls deploy --stage <stagename>` 
 5. Once the command finishes you will need to grab the API Endpoint Urls for Get and Post and update the following files:
-	6. website/js/sketch.js
-	7. website/js/submission.js
-6. Navigate to the website folder in terminal / command line and use the `aws s3 sync . s3://<S3BucketName> --acl public-read`  and this will upload the website files into the s3 bucket.
+	* `website/js/sketch.js`
+	* `website/js/submission.js`
+6. Navigate to the website folder in terminal / command line and use this command and this will upload the website files into the s3 bucket.
+> `aws s3 sync . s3://<S3BucketName> --acl public-read`  
 7. You can then visit the Public URL for the bucket.
 
 ## Support
