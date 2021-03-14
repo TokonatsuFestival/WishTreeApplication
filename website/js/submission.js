@@ -1,10 +1,8 @@
 $("#tagForm").submit(function(e){
     e.preventDefault();
-    alert("Hello"); 
 })
 
 $(document).ready(function() {
-    //option A
     $("#tagForm").submit(function(e){
         e.preventDefault();
         tagDescription = $('#TagDescription').val();
@@ -17,7 +15,6 @@ $(document).ready(function() {
             crossDomain: true,
         }).done(function (msg) {
             console.log(msg);
-            alert( "Tag Saved: " + msg);
         });
     });
 });
