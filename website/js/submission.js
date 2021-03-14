@@ -15,6 +15,7 @@ $(document).ready(function() {
             crossDomain: true,
         }).done(function (msg) {
             console.log(msg);
+            location.reload();
         });
     });
 });
