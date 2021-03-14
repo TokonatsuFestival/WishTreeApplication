@@ -1,9 +1,3 @@
-// Prevents the standard form submission from POSTing and allows the JS below to work
-// TODO: CB Is this still required? I spot its duplicated elsewhere!
-$("#tagForm").submit(function(e){
-    e.preventDefault();
-})
-
 // Load up the function when the document is ready (standard JQuery style!)
 $(document).ready(function() {
     // Check the #tagForm and when submitted
