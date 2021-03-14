@@ -1,6 +1,5 @@
 function preload () {
   loadedTags = loadJSON("https://<API-GATEWAY-ADDRESS>/<STAGE>/getTagsForWishTree");
-  //console.log(loadedTags);
 }
 
 function getXYCoordsForArea(area){
@@ -52,8 +51,6 @@ function getXYCoordsForArea(area){
     usedScale     = 0.2;
     tags          = [[], [], [], [], [], [], [], []];
 
-    //document.getElementById('debug').innerHTML = "Number of Tags: " + loadedTags.body.length;
-    //console.log("Number of tags: " + Object.keys(loadedTags).length);
     ori = [0,1]
     areas = [0,1,2,3,4,5,6,7];
     for (i = 0; i < Object.keys(loadedTags).length; i++) {
@@ -63,17 +60,14 @@ function getXYCoordsForArea(area){
         x             = coords["x"] + (40*tagCount);
         y             = coords["y"];
         tags[area][tagCount] = new tag (x, y, loadedTags[i].Description, random(ori), usedScale);
-        //console.log("Tag:" + i  + " CX: " + tags[area][tagCount].cX + " CY: " + tags[area][tagCount].cY);
     }
     currentW = 60;
     movement = 1;
     minW = 40;
     maxW = 80;
-    //console.log(tags);
   }
   
   function draw() {
-    //background('rgba(1,1,1,0)');
     background(bg);
     scale(usedScale);
     bigTag = "";

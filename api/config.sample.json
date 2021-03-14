@@ -1,5 +1,4 @@
 {
     "WISH_TREE_S3_BUCKET": "eventname-wishtree",
     "WISH_TREE_TAGS_TABLE": "eventnameWishTreeTags"
-    
 }

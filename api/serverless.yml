@@ -64,18 +64,19 @@ resources:
           WriteCapacityUnits: 5
         SSESpecification:
           SSEEnabled: true
-    wishTreeS3Bucket:
-      Type: AWS::S3::Bucket
-      Properties:
-        AccessControl: PublicRead
-        BucketName: ${file(./config.${opt:stage, self:provider.stage, 'dev'}.json):WISH_TREE_S3_BUCKET}
-        WebsiteConfiguration:
-          IndexDocument: index.html
-          ErrorDocument: error.html
-      DeletionPolicy: Retain
-  Outputs:
-    WebsiteURL:
-      Value: !GetAtt
-         - wishTreeS3Bucket
-         - WebsiteURL
-      Description: URL for website hosted on S3
+  # Uncomment the following lines if you wish to also create an S3 bucket for hosting the website
+  #   wishTreeS3Bucket:
+  #     Type: AWS::S3::Bucket
+  #     Properties:
+  #       AccessControl: PublicRead
+  #       BucketName: ${file(./config.${opt:stage, self:provider.stage, 'dev'}.json):WISH_TREE_S3_BUCKET}
+  #       WebsiteConfiguration:
+  #         IndexDocument: index.html
+  #         ErrorDocument: error.html
+  #     DeletionPolicy: Retain
+  # Outputs:
+  #   WebsiteURL:
+  #     Value: !GetAtt
+  #        - wishTreeS3Bucket
+  #        - WebsiteURL
+  #     Description: URL for website hosted on S3
